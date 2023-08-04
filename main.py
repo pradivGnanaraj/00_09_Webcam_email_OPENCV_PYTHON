@@ -1,9 +1,13 @@
 import cv2
+from emailing import send_email
 
 video = cv2.VideoCapture(0)
 
 first_frame = None
+status_list = []
+
 while True:
+    status = 0
     check, frame = video.read()
 
     # converting to grayscale
@@ -28,9 +32,19 @@ while True:
         if cv2.contourArea(contour) < 5000:
             continue
         x, y, w, h = cv2.boundingRect(contour)
-        cv2.rectangle(frame, (x,y), (x+w, y+h), (0, 255, 0), 3)
+        rectangle = cv2.rectangle(frame, (x,y), (x+w, y+h), (0, 255, 0), 3)
+        if rectangle.any():
+            # sending email after the object exists
+            status = 1
 
-    cv2.imshow("Vidoe", frame)
+    status_list.append(status)
+    status_list = status_list[-2:]
+
+    if status_list[0] == 1 and status_list[1] == 0:
+        send_email()
+
+    print(status_list)
+    cv2.imshow("Video", frame)
     key = cv2.waitKey(1)
 
     if key == ord("q"):
