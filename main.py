@@ -3,8 +3,11 @@ from emailing import send_email
 import glob
 import os
 from threading import Thread
+import time
 
 video = cv2.VideoCapture(0)
+time.sleep(1)
+
 first_frame = None
 status_list = []
 count = 1
@@ -48,7 +51,7 @@ while True:
             status = 1
             # saving the images
             cv2.imwrite(f"images/{count}.png", frame)
-            count += 1
+            count = count + 1
             # preparing the middle images
             all_images = glob.glob("images/*.png")
             index = int(len(all_images) / 2)
@@ -63,9 +66,9 @@ while True:
         email_thread = Thread(target=send_email, args=(image_with_object, ))
         email_thread.daemon = True
 
-        clean_thread = Thread(target=clean_folder(),)
-        clean_thread.daemon = True
-        # Beging Thread 1
+        clean_thread = Thread(target=clean_folder)
+        email_thread.daemon = True
+        # Begin Thread 1
         email_thread.start()
 
     print(status_list)

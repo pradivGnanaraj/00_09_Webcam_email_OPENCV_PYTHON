@@ -2,12 +2,14 @@ import smtplib
 import imghdr
 from email.message import EmailMessage
 
-PASSWORD = "cgcjskcjidsxojcn"
-SENDER = "tpradivgnanaraj@gmail.com"
-RECEIVER = "tpradivgnanaraj@gmail.com"
+PASSWORD = "YOUR_PASSWORD_HERE"
+SENDER = "EMAIL_ADDRESS_SENDER"
+# The sender and the receiver email address can be same.
+RECEIVER = "EMAIL_ADDRESS_RECEIVER"
+
 
 def send_email(image_path):
-    email_message = EmailMessage
+    email_message = EmailMessage()
     email_message["Subject"] = "New Customer showed up!"
     email_message.set_content("Hey ,we just saw a new customer!")
 
@@ -19,6 +21,5 @@ def send_email(image_path):
     gmail.ehlo()
     gmail.starttls()
     gmail.login(SENDER, PASSWORD)
-    gmail.sendmail(SENDER,RECEIVER, email_message.as_string())
+    gmail.sendmail(SENDER, RECEIVER, email_message.as_string())
     gmail.quit()
-
