@@ -1,16 +1,15 @@
-# This is a sample Python script.
+import cv2
+import time
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+video = cv2.VideoCapture(0)
 
+while True:
+    check, frame = video.read()
+    cv2.imshow("My video", frame)
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+    key = cv2.waitKey(1)
 
+    if key == ord("q"):
+        break
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+video.release()
